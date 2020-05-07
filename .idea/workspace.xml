@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c8bd60c-f609-476d-be26-17729cf19c9f" name="Default Changelist" comment="" />
+    <list default="true" id="1c8bd60c-f609-476d-be26-17729cf19c9f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/nate.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dictionaries/nate.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vyos.py" beforeDir="false" afterPath="$PROJECT_DIR$/vyos.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vytest.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="GOROOT" path="$USER_HOME$/sdk/go1.14.1" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectId" id="1a3hze8UbWPgOIgOaqhday1QmRl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="GO_FMT" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -24,6 +38,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="851" y="242" width="1482" height="978" key="CommitChangelistDialog2" timestamp="1588875042982">
+      <screen x="0" y="24" width="2560" height="1416" />
+    </state>
+    <state x="851" y="242" width="1482" height="978" key="CommitChangelistDialog2/0.24.2560.1416/2560.0.1920.1080@0.24.2560.1416" timestamp="1588875042982" />
     <state x="1063" y="490" width="424" height="482" key="FileChooserDialogImpl" timestamp="1586230461294">
       <screen x="0" y="24" width="2560" height="1416" />
     </state>
