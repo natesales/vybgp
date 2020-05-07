@@ -71,7 +71,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">New Peer</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New Peer <small><a id="peeringdb-url" href="" target="_blank"></a></small></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -118,7 +118,6 @@
             </div>
             <div class="modal-footer">
                 <p class="mr-auto" id="status"></p>
-                <a type="button" id="peeringdb-url" class="btn btn-secondary" style="color: white; display: none;" href="" target="_blank">PeeringDB</a>
                 <button type="button" class="btn btn-primary" onclick="document.getElementById('peer-form').submit()">Go</button>
             </div>
         </div>
@@ -133,6 +132,7 @@
                 <th>ASN</th>
                 <th>Name</th>
                 <th>IPs</th>
+                <th>Location</th>
                 <th>Status</th>
                 <th>Event</th>
                 <th></th>
@@ -198,16 +198,26 @@
 <script>
     window.addEventListener('DOMContentLoaded', () => {
         for (const rid in document.getElementById("table-body").rows) {
-        try {
-            let asn = document.getElementById("table-body").rows[rid].cells[0].getElementsByTagName("a")[0].innerText.slice(2);
-            fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
-                if (data.data[0]) {
-                    document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].innerText = data.data[0].name;
-                    document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].href = "https://peeringdb.com/net/" + data.data[0].id;
-                }
-            });
-        } catch(err) {}
+          try {
+              let asn = document.getElementById("table-body").rows[rid].cells[0].getElementsByTagName("a")[0].innerText.slice(2);
+              fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
+                  if (data.data[0]) {
+                      document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].innerText = data.data[0].name;
+                      document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].href = "https://peeringdb.com/net/" + data.data[0].id;
 
+                      let address = document.getElementById("table-body").rows[rid].cells[2].innerText;
+                      fetch("https://peeringdb.com/api/net/" + data.data[0].id).then(response => response.json()).then((data) => {
+                        for (const id in data.data[0].netixlan_set) {
+                          const ix = data.data[0].netixlan_set[id];
+
+                          if (address === ix.ipaddr4 || address === ix.ipaddr6) {
+                            document.getElementById("table-body").rows[rid].cells[3].innerHTML = "<a class='link-normal' target='_blank' href='https://peeringdb.com/ix/" + ix.ix_id + "'>" + ix.name + "</a>";
+                          }
+                        }
+                      });
+                  }
+              });
+          } catch(err) {}
         }
     });
 
@@ -218,6 +228,18 @@
             $("#newModal").modal("show");
         }
     }
+
+    // Flip the filter profile when enter is pressed
+    let filter = document.getElementById("filter");
+    filter.addEventListener("keydown", function(e) {
+      if (e.code == "Enter") {
+        if (filter.value === "peer") {
+          filter.value = "upstream";
+        } else {
+          filter.value = "peer";
+        }
+      }
+    });
 
     // Auto-select the ASN input when the modal opens.
     $("#newModal").on('shown.bs.modal', function (e) {
@@ -252,7 +274,7 @@
                 max_ipv6.value = peeringdb.info_prefixes6;
 
                 peeringdb_url.href = "https://peeringdb.com/net/" + peeringdb.id;
-                peeringdb_url.style = "display:block;";
+                peeringdb_url.innerText = "PeeringDB";
             });
         }
     }
