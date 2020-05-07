@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1c8bd60c-f609-476d-be26-17729cf19c9f" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" path="$USER_HOME$/sdk/go1.14.1" />
+  <component name="ProjectId" id="1a3hze8UbWPgOIgOaqhday1QmRl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="1063" y="490" width="424" height="482" key="FileChooserDialogImpl" timestamp="1586230461294">
+      <screen x="0" y="24" width="2560" height="1416" />
+    </state>
+    <state x="1063" y="490" width="424" height="482" key="FileChooserDialogImpl/0.24.2560.1416@0.24.2560.1416" timestamp="1586230461294" />
+    <state x="843" y="285" width="873" height="894" key="find.popup" timestamp="1585971708276">
+      <screen x="0" y="24" width="2560" height="1416" />
+    </state>
+    <state x="843" y="285" width="873" height="894" key="find.popup/0.24.2560.1416@0.24.2560.1416" timestamp="1585971708276" />
+    <state x="943" y="347" width="672" height="678" key="search.everywhere.popup" timestamp="1588563206806">
+      <screen x="0" y="24" width="2560" height="1416" />
+    </state>
+    <state x="943" y="347" width="672" height="678" key="search.everywhere.popup/0.24.2560.1416/2560.0.1920.1080@0.24.2560.1416" timestamp="1588563206806" />
+    <state x="943" y="347" width="672" height="678" key="search.everywhere.popup/0.24.2560.1416@0.24.2560.1416" timestamp="1585973423382" />
+  </component>
+</project>

@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Peering Dashboard</title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/4.0/examples/pricing/pricing.css" rel="stylesheet">
+
+
+    <style>
+        a {
+            color: grey;
+        }
+
+        .btn-round {
+            margin-top: 10px;
+            margin-left: 40px;
+            text-align: center;
+            position: absolute;
+            bottom: 60px;
+            right: 70px;
+
+            width: 50px;
+            height: 50px;
+            padding: 2px 10px;
+            border-radius: 25px;
+            font-size: 30px;
+        }
+
+        .link-normal {
+            color: black;
+            text-decoration: underline;
+        }
+
+        /** {*/
+        /*    color: white;*/
+        /*}*/
+
+        /*html, body {*/
+        /*    background-color: black;*/
+        /*    color: white;*/
+        /*}*/
+
+        /*a {*/
+        /*    color: white;*/
+        /*}*/
+    </style>
+</head>
+
+<body>
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Peering Dashboard</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2" href="/services">Services</a>
+        <a class="p-2" href="/pricing">Pricing</a>
+        <a class="p-2" href="/network">Network</a>
+    </nav>
+    <a class="btn btn-outline-primary" href="/console">Console</a>
+</div>
+
+<div class="pricing-header px-3 py-3 mx-auto text-center">
+    <h2>Peering Dashboard</h2>
+</div>
+
+<div class="modal fade" id="newModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">New Peer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <form method="post" action="/peer" id="peer-form">
+                    <div class="form-group">
+                        <label for="asn">ASN</label>
+                        <input type="number" class="form-control" id="asn" name="asn" placeholder="65513" onchange="updateName()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" id="address" name="address" onchange="updateGroup()">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="group">Group</label>
+                        <input type="text" class="form-control" id="group" name="group" value="Internal">
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col">
+                                <label for="max-prefixes-ipv4">Max IPv4</label>
+                                <input type="number" id="max-prefixes-ipv4" name="max-prefixes-ipv4" class="form-control" value="100">
+                            </div>
+                            <div class="col">
+                                <label for="max-prefixes-ipv6">Max IPv6</label>
+                                <input type="number" id="max-prefixes-ipv6" name="max-prefixes-ipv6" class="form-control" value="100">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="filter">Filter</label>
+                        <select class="form-control" id="filter" name="filter">
+                            <option value="peer">Peer</option>
+                            <option value="upstream">Upstream</option>
+                        </select>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <p class="mr-auto" id="status"></p>
+                <a type="button" id="peeringdb-url" class="btn btn-secondary" style="color: white; display: none;" href="" target="_blank">PeeringDB</a>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('peer-form').submit()">Go</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="card-deck text-center">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ASN</th>
+                <th>Name</th>
+                <th>IPs</th>
+                <th>Status</th>
+                <th>Event</th>
+                <th></th>
+            </tr>
+            </thead>
+
+            <tbody id="table-body">
+
+            {{ peers }}
+
+            </tbody>
+        </table>
+    </div>
+
+    <button type="button" class="btn btn-primary btn-round" data-toggle="modal" data-target="#newModal">+</button>
+
+    <!--
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="https://cdn.packetframe.com/img/transparent.png" alt="" width="100" height="100">
+                <small class="d-block mb-3 text-muted">&copy; 2017-2018</small>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Features</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Cool stuff</a></li>
+                    <li><a class="text-muted" href="#">Random feature</a></li>
+                    <li><a class="text-muted" href="#">Team feature</a></li>
+                    <li><a class="text-muted" href="#">Stuff for developers</a></li>
+                    <li><a class="text-muted" href="#">Another one</a></li>
+                    <li><a class="text-muted" href="#">Last time</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Resources</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Resource</a></li>
+                    <li><a class="text-muted" href="#">Resource name</a></li>
+                    <li><a class="text-muted" href="#">Another resource</a></li>
+                    <li><a class="text-muted" href="#">Final resource</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>About</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="text-muted" href="#">Team</a></li>
+                    <li><a class="text-muted" href="#">Locations</a></li>
+                    <li><a class="text-muted" href="#">Privacy</a></li>
+                    <li><a class="text-muted" href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    -->
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        for (const rid in document.getElementById("table-body").rows) {
+        try {
+            let asn = document.getElementById("table-body").rows[rid].cells[0].getElementsByTagName("a")[0].innerText.slice(2);
+            fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
+                if (data.data[0]) {
+                    document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].innerText = data.data[0].name;
+                    document.getElementById("table-body").rows[rid].cells[1].getElementsByTagName("a")[0].href = "https://peeringdb.com/net/" + data.data[0].id;
+                }
+            });
+        } catch(err) {}
+
+        }
+    });
+
+    // When the 'n' key is pressed, open the modal.
+    document.addEventListener("keydown", logKey);
+    function logKey(e) {
+        if (e.code === "KeyN") {
+            $("#newModal").modal("show");
+        }
+    }
+
+    // Auto-select the ASN input when the modal opens.
+    $("#newModal").on('shown.bs.modal', function (e) {
+        $('#newModal input[type="number"]')[0].select();
+    });
+
+    // Clear the modal when it's closed, so when it opens it'll be ready for a new peer.
+    $("#newModal").on("hidden.bs.modal", function () {
+        document.getElementById("asn").value = "";
+        document.getElementById("name").value = "";
+        document.getElementById("status").value = "";
+        document.getElementById("max-prefixes-ipv4").value = 100;
+        document.getElementById("max-prefixes-ipv6").value = 100;
+        document.getElementById("peeringdb-url").href = "";
+        document.getElementById("peeringdb-url").style = "display: none;";
+    });
+
+    function updateName() {
+        let asn = document.getElementById("asn").value;
+        let name = document.getElementById("name");
+        let status = document.getElementById("status");
+        let max_ipv4 = document.getElementById("max-prefixes-ipv4");
+        let max_ipv6 = document.getElementById("max-prefixes-ipv6");
+        let peeringdb_url = document.getElementById("peeringdb-url");
+
+        if (!isNaN(asn)) {
+            fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
+                const peeringdb = data.data[0];
+                name.value = peeringdb.name;
+                status.innerText = "Traffic: " + peeringdb.info_traffic;
+                max_ipv4.value = peeringdb.info_prefixes4;
+                max_ipv6.value = peeringdb.info_prefixes6;
+
+                peeringdb_url.href = "https://peeringdb.com/net/" + peeringdb.id;
+                peeringdb_url.style = "display:block;";
+            });
+        }
+    }
+
+    function updateGroup() {
+        let asn = document.getElementById("asn").value;
+        let address = document.getElementById("address").value;
+        let group = document.getElementById("group");
+
+        fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
+            fetch("https://peeringdb.com/api/net/" + data.data[0].id).then(response => response.json()).then((data) => {
+                const ixps = data.data[0].netixlan_set;
+                for (const id in ixps) {
+                    const ix = ixps[id];
+
+                    if (address === ix.ipaddr4 || address === ix.ipaddr6) {
+                        group.value = ix.name;
+                    }
+                }
+            });
+        });
+    }
+</script>
+
+</body>
+</html>
