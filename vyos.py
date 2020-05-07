@@ -1,26 +1,40 @@
-# VyOS Agent
+import re
+import vymgmt
 
-import os
-from urllib.parse import unquote
-from http.server import HTTPServer, BaseHTTPRequestHandler
 
-LOG = False
-HOST = "10.0.10.2"
-PORT = 8000
+class Router:
+    def __init__(self, host, user="vyos", pswd="vyos", port=22):
+        self.router = vymgmt.Router(host, user, pswd, port)
+        self.router.login()
 
-class RequestHandler(BaseHTTPRequestHandler):
-    def send_response(self, code):
-        if LOG:
-            self.log_request(code)
-        self.send_response_only(code)
-        self.send_header("Server", "python3 http.server Development Server")
-        self.end_headers()
+    def __del__(self):
+        self.router.exit()
+        self.router.logout()
 
-    def do_GET(self):
-        self.send_response(200)
-        output = os.popen("/opt/vyatta/bin/vyatta-op-cmd-wrapper " + unquote(self.path[1:])).read()
-        self.wfile.write(output.encode())
+    @staticmethod
+    def _sanitize(output):
+        output = re.compile(r'\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])').sub('', output)
 
-server_address = (HOST, PORT)
-httpd = HTTPServer(server_address, RequestHandler)
-httpd.serve_forever()
+        for chr in ("\r", "\x1b=", "\x1b>", " \x08"):
+            output = output.replace(chr, "")
+
+        return "\n".join(output.split("\n")[1:]).strip()
+
+    def op(self, command):
+        return self._sanitize(self.router.run_op_mode_command(command))
+
+    def set(self, args):
+        self.router.configure()
+        output = self.router.set(args)
+        self.router.commit()
+        self.router.save()
+        self.router.exit()
+        return output
+
+    def delete(self, args):
+        self.router.configure()
+        output = self.router.delete(args)
+        self.router.commit()
+        self.router.save()
+        self.router.exit()
+        return output
