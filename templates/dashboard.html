@@ -90,12 +90,7 @@
 
                     <div class="form-group">
                         <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" name="address" onchange="updateGroup()">
-                    </div>
-
-                    <div class="form-group">
-                        <label for="group">Group</label>
-                        <input type="text" class="form-control" id="group" name="group" value="Internal">
+                        <input type="text" class="form-control" id="address" name="address">
                     </div>
 
                     <div class="form-group">
@@ -260,25 +255,6 @@
                 peeringdb_url.style = "display:block;";
             });
         }
-    }
-
-    function updateGroup() {
-        let asn = document.getElementById("asn").value;
-        let address = document.getElementById("address").value;
-        let group = document.getElementById("group");
-
-        fetch("https://peeringdb.com/api/net?asn=" + asn).then(response => response.json()).then((data) => {
-            fetch("https://peeringdb.com/api/net/" + data.data[0].id).then(response => response.json()).then((data) => {
-                const ixps = data.data[0].netixlan_set;
-                for (const id in ixps) {
-                    const ix = ixps[id];
-
-                    if (address === ix.ipaddr4 || address === ix.ipaddr6) {
-                        group.value = ix.name;
-                    }
-                }
-            });
-        });
     }
 </script>
 
